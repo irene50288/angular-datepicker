@@ -14,7 +14,6 @@ Module.constant('dateTimeConfig', {
         (attrs.maxView ? 'max-view="' + attrs.maxView + '" ' : '') +
         (attrs.template ? 'template="' + attrs.template + '" ' : '') +
         (attrs.minView ? 'min-view="' + attrs.minView + '" ' : '') +
-        (attrs.partial ? 'partial="' + attrs.partial + '" ' : '') +
         'class="dropdown-menu"></div>';
   },
   format: 'yyyy-MM-dd HH:mm',
@@ -33,7 +32,7 @@ Module.directive('dateTimeAppend', function () {
   };
 });
 
-Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfig', '$parse', function ($compile, $document, $filter, dateTimeConfig, $parse) {
+Module.directive('dateTime', function ($compile, $document, $filter, dateTimeConfig, $parse) {
   var body = $document.find('body');
   var dateFilter = $filter('date');
 
@@ -111,6 +110,11 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
           }
         });
 
+        scope.$on('clear', function (event, date, view) {
+          clear();
+        });
+
+
         scope.$on('$destroy', clear);
 
         // move picker below input element
@@ -138,4 +142,4 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
       element.bind('blur', clear);
     }
   };
-}]);
+});
